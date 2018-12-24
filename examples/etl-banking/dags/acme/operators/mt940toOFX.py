@@ -1,11 +1,12 @@
-#!/usr/bin/env python
 # encoding: utf-8
 """
+#!/usr/bin/env python
 mt940toOFX.py - Dieses Progrtamm liesst MT940 SWIFT Kontostände und konvertiert sie in OFX.
 OFX wurde mit xero.com getestet.
 
 Created by Maximillian Dornseif on 2010-06-05.
 Copyright (c) 2010, 2013, 2014 HUDORA. All rights reserved.
+https://gist.github.com/mdornseif/5676104
 """
 
 
@@ -16,11 +17,13 @@ import os
 import re
 import sys
 import xml.etree.ElementTree as ET
+#import repr as reprlib
 
 
 def parse_mt940(data):
 
-    data = data.decode('latin1')
+    #data = data.decode('latin1')
+    #data = data.decode('cp1252')
     # See https://www.companyworld.com/en/information_services_2006/download_center/files/mt940.pdf
     # https://mijn.ingbank.nl/ing/downloadables/bestandsformate/5899_handboek_mt940_gb_v6.pdf
     auszuege = {}
@@ -36,7 +39,7 @@ def parse_mt940(data):
                 dummy, typ = nextline.split(':')[:2]
                 data = ':'.join(nextline.split(':')[2:])
             except:
-                print repr(nextline)
+                print(repr(nextline))
                 raise
             quellblz = quellkonto = ''
             if typ == '20':
@@ -51,6 +54,9 @@ def parse_mt940(data):
                     auszuege[account] = []
             elif typ == '28C':
                 statement_nr = data
+            elif typ == '28':
+                statement_nr = data[0:5]
+                sequence_nr = data[6:]
             elif typ == '60F':
                 # C100531EUR44,9
                 sign = data[0]
@@ -85,10 +91,11 @@ def parse_mt940(data):
                 bookingcode = c + data[:3]
                 reference = data[3:]
             elif typ == '86':
-                elements = data.split('?')
-                transaction_code = elements[0][2:]
+                elements = data.split('>')
+                #transaction_code = elements[0][2:]
+                transaction_code = elements[0]
                 buchungstext = elements[1][2:]
-                primanota = elements[2][2:]
+                #primanota = elements[2][2:]
                 verwendungszweck = ''
                 absender = ''
                 for element in elements[3:]:
@@ -112,7 +119,8 @@ def parse_mt940(data):
                 verwendungszweck = re.sub(r' +', r' ', verwendungszweck)
                 guid = ':'.join([transaction_reference_number, statement_nr,
                                  quellblz, quellkonto, amount, verwendungszweck, str(date)])
-                guid = hashlib.md5(repr(guid)).hexdigest()
+                #guid = hashlib.md5(repr(guid)).hexdigest()
+                guid = hashlib.md5(guid.encode('utf-8')).hexdigest()
                 description = "Konto %s, BLZ %s" % (quellkonto, quellblz)
                 if not absender:
                     absender = '???'
@@ -170,7 +178,7 @@ def write_ofx(account, vorgaenge, inputname):
         # DtPosted Date item was posted, datetime
         ET.SubElement(stmttrn, 'DTPOSTED').text = "20%s" % date
         # Amount, mit '.' getrennt
-        ET.SubElement(stmttrn, 'TRNAMT').text = unicode(amount)
+        ET.SubElement(stmttrn, 'TRNAMT').text = amount  # unicode(amount)
         # That is, the <FITID> value must be unique within the account and Financial Institution
         # (independent of the service provider).
         ET.SubElement(stmttrn, 'FITID').text = guid.replace('*', '.')
@@ -200,10 +208,10 @@ OLDFILEUID:NONE
 NEWFILEUID:NONE
 
 """
-    body = ET.tostring(root, encoding='utf-8')
+    body = ET.tostring(root, encoding='utf-8').decode("utf-8")
     fname = 'auszug_%s_%s.ofx' % (
         datetime.date.today(), account.replace('/', '.'))
-    print "writing %s" % fname
+    print("writing %s" % fname)
     fd = open(fname, 'w')
     fd.write(header)
     fd.write(body)
@@ -214,8 +222,9 @@ NEWFILEUID:NONE
 if __name__ == '__main__':
     for fname in sys.argv[1:]:
         data = []
-        print 'processing %s' % fname
-        data.append(open(fname).read())
+        print('processing %s' % fname)
+        #data.append(open(fname).read())
+        data.append(open(fname, encoding="iso-8859-1").read())
         data = '\n\n'.join(data)
 
         if not data:
@@ -226,3 +235,24 @@ if __name__ == '__main__':
 
         for account in auszuege:
             write_ofx(account, auszuege[account], fname)
+
+
+"""
+fname = 'lohn_mt940.kto'
+data = []
+print('processing %s' % fname)
+#data.append(open(fname, encoding="cp1252").read())
+data.append(open(fname, encoding="iso-8859-1").read())
+#data.append(open(fname, encoding="utf-8").read())
+data = '\n\n'.join(data)
+
+if not data:
+    sys.exit(1)
+
+auszuege = parse_mt940(data)
+fname, extension = os.path.splitext(fname)
+
+for account in auszuege:
+    write_ofx(account, auszuege[account], fname)
+
+"""
