@@ -1,6 +1,10 @@
+import csv
+
+
 path = '/Users/sspaeti/Simon/Sync/Financials/001_Budget/04_Finanzplanung/Transaktionen_Export/'
 #filename = 'bekb-viseca-silver-170304_190316.txt'
-filename = 'testing.txt'
+filename = 'clerc-viseca-181001_190131_mary.txt'
+#filename = 'testing.txt'
 
 
 l = []
@@ -37,12 +41,18 @@ for line in lines:
 #print(transactions)
 
 for t in transactions:
-    #print (t)
+    t['Payee'] = t['Payee'] + ' ' + t['orderDate'][17:]
+    t['orderTime'] = t['orderDate'][11:16]
+    t['orderDate'] = t['orderDate'][:10]
 
-    print(t['orderDate'])
+i=0
+for t in transactions:
+    if len(t) == 6:
+        break
+    i += 1
 
-
-    #for r in t:
-    #    print(r)
-    #if len(t)= 5:
+with open(path + filename+'.csv', 'w') as f:  # Just use 'w' mode in 3.x
+    w = csv.DictWriter(f, transactions[i].keys())
+    w.writeheader()
+    w.writerows(transactions)
 
