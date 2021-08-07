@@ -1,0 +1,6 @@
+dagster
+dagit
+dagster_pandas
+pandas
+xlrd
+black
