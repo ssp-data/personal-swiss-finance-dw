@@ -1,0 +1,1 @@
+This repo was initially cloned from [etl-with-airflow](https://gtoonstra.github.io/etl-with-airflow/) but created my own example to learn Airflow and handle my personal finance with Swiss accounts.
