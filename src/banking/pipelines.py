@@ -9,7 +9,7 @@ from dagster import (
     graph,
 )
 
-from ops.excel_reader import excel_reader
+from banking.ops.excel_reader import excel_reader
 
 # MODE_LOCAL = ModeDefinition(
 #     name="local_live_data",
@@ -60,6 +60,4 @@ from ops.excel_reader import excel_reader
 # @pipeline(**download_pipeline_properties, preset_defs=[PRESET_TEST])
 @graph
 def download_pipeline():
-    excel_reader(
-        r"/Users/sspaeti/Simon/Sync/Financials/001_Budget/04_Finanzplanung/_Transaktionen_Export/2021/2021-08-07_CH6200790042288876596.xls"
-    )
+    excel_reader()

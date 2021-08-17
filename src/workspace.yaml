@@ -1,2 +1,6 @@
+#load_from:
+#  - python_file: repo.py
 load_from:
-  - python_file: repo.py
+  - python_file:
+      relative_path: banking/repo.py
+      location_name: banking_repo

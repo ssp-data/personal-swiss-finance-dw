@@ -4,3 +4,5 @@ _site
 **/*.pyc
 examples/datavault2-bigdata-example/dataflow/env
 
+
+docs/Quicklink -Schnittstellen für Offlinetools-v2.3.2.pdf

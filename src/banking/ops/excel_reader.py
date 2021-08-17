@@ -1,17 +1,17 @@
-from dagster import ops, String, OutputDefinition, LocalFileHandle
-from types.pandas import BekbTransactionDataFrame
+from dagster import solid, op, String, OutputDefinition, LocalFileHandle
+from banking.types.pandas import BekbTransactionDataFrame
 from pandas import DataFrame, read_csv
 from dagster.utils import script_relative_path
 
 import pandas as pd
 
 
-@ops(
+@op(
     output_defs=[
         OutputDefinition(name="bekb_transaction_dataframe", dagster_type=BekbTransactionDataFrame)
     ]
 )
-def excel_reader(context, file_path: LocalFileHandle) -> DataFrame:
+def excel_reader(context, file_path: String) -> DataFrame:
     xls = pd.ExcelFile(file_path).parse(0)
     sheet = xls.parse(0)
 
