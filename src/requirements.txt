@@ -4,3 +4,5 @@ dagster_pandas
 pandas
 xlrd
 black
+requests
+datetime

@@ -1,0 +1,8 @@
+solids:
+  download_transactions:
+    inputs:
+      iban: CH0500790042490277558
+      language: de
+      date_from: 2021-07-01
+      date_to: 2021-08-10
+      copy: "true"

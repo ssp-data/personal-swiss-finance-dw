@@ -7,57 +7,57 @@ from dagster import (
     fs_io_manager,
     mem_io_manager,
     graph,
+    repository,
+    file_relative_path,
+    ConfigMapping,
 )
 
-from banking.ops.excel_reader import excel_reader
-
-# MODE_LOCAL = ModeDefinition(
-#     name="local_live_data",
-#     description=(
-#         "This mode queries live HN data but does all writes locally. "
-#         "It is meant to be used on a local machine"
-#     ),
-#     resource_defs={
-#         "io_manager": fs_io_manager,
-#         "partition_start": ResourceDefinition.string_resource(),
-#         "partition_end": ResourceDefinition.string_resource(),
-#         "parquet_io_manager": partitioned_parquet_io_manager.configured(
-#             {"base_path": get_system_temp_directory()}
-#         ),
-#         "db_io_manager": fs_io_manager,
-#         "pyspark": pyspark_resource,
-#         "hn_client": hn_api_subsample_client.configured({"sample_rate": 10}),
-#     },
-# )
+from banking.ops.fetching import download_transactions
+from banking.resources.resource_bekb import bekb_resource
 
 
-# download_pipeline_properties = {
-#     "description": "#### Owners:\n"
-#     "hello@sspaeti.com\n "
-#     "#### About\n"
-#     "This pipeline .... ",
-#     "mode_defs": [
-#         # MODE_TEST,
-#         MODE_LOCAL,
-#         # MODE_STAGING,
-#         # MODE_PROD,
-#     ],
-# }
+PRESET_LOCAL = PresetDefinition(
+    name="test_local_disk",
+    #     run_config={
+    #         "resources": dict(
+    #             parquet_io_manager={"config": {"base_path": get_system_temp_directory()}},
+    #             **DEFAULT_PARTITION_RESOURCE_CONFIG,
+    #         ),
+    #     },
+    mode="test_local_data",
+)
 
 
-# PRESET_TEST = PresetDefinition(
-#     name="test_local_data",
-#     run_config={
-#         "resources": dict(
-#             parquet_io_manager={"config": {"base_path": get_system_temp_directory()}},
-#             **DEFAULT_PARTITION_RESOURCE_CONFIG,
-#         ),
-#     },
-#     mode="test_local_data",
-# )
-
-
-# @pipeline(**download_pipeline_properties, preset_defs=[PRESET_TEST])
-@graph
+@graph()
 def download_pipeline():
-    excel_reader()
+    json = download_transactions()
+
+
+resource_def = {
+    #         "io_manager": fs_io_manager,
+    #         "parquet_io_manager": partitioned_parquet_io_manager.configured(
+    #             {"base_path": get_system_temp_directory()}
+    #         ),
+    "bekb_client": bekb_resource.configured(
+        {
+            "connection_url": "https://banking.bekb.ch",
+            "password": os.getenv("BEKB_PASSWORD", "No bekb env set"),
+            "language": "de",
+            "account": os.getenv("BEKB_LOGIN", "no bekb login env set"),
+            "api_version": "v3",
+        },
+    )
+}
+# download_pipeline_job = download_pipeline.to_job(resource_defs=resource_def)
+download_pipeline_job = download_pipeline.to_job(
+    resource_defs=resource_def,
+    # config=configmapping(
+    #     config_fn=lambda conf: file_relative_path(__file__, 'run_config/download_transactions.yaml')
+    # )
+    # config={"solids": {"do_something": {"config": {"param": "some_val"}}}}
+)
+
+
+@repository
+def dev_repo():
+    return [download_pipeline_job]

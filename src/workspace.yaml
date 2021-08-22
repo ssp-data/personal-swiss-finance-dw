@@ -2,5 +2,5 @@
 #  - python_file: repo.py
 load_from:
   - python_file:
-      relative_path: banking/repo.py
-      location_name: banking_repo
+      relative_path: banking/pipelines.py
+      location_name: dev_repo
