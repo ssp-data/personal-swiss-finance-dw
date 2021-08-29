@@ -25,7 +25,7 @@ def download_transactions(
     context.log.info("start connecting to BEKB and waiting for smartlogin confirmation..")
 
     bekb_client = context.resources.bekb_client
-    session = bekb_client.smartlogin_conneceion()
+    session = bekb_client.smartlogin_connection()
     json_response = bekb_client.fetch_camt053(iban, language, date_from, date_to, copy)
 
     context.log.info("camt053 transactions successfully donwloaded")
