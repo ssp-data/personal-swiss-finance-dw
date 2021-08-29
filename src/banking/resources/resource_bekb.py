@@ -1,4 +1,5 @@
 from dagster import resource, Field, StringSource
+from banking.types.general import JsonType
 import requests
 import os
 import datetime as dt
@@ -66,7 +67,7 @@ class BekbConnector(object):
         r99 = self._session.request("GET", self._logout_url)
         self._session.close()
 
-    def fetch_camt053(self, iban, language, date_from, date_to, copy):
+    def fetch_camt053(self, iban, language, date_from, date_to, copy) -> JsonType:
         url = (
             os.path.join(self._connection_url, "secure/api/offline-iso/v1/camt053/")
             + str(iban)
@@ -82,7 +83,7 @@ class BekbConnector(object):
 
         r = self._session.request("GET", url)
         if r.status_code == 200:
-            return r.text
+            return r.json()
         else:
             raise ValueError(
                 f"fetch-camt053 failes with status {r.status_code}, text: {r.text}. Url: {url}"
