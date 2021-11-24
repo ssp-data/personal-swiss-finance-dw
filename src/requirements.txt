@@ -1,6 +1,6 @@
-dagster
-dagit
-dagster_pandas
+dagster==0.13.8
+dagit==0.13.8
+dagster_pandas==0.13.8
 pandas
 xlrd
 black

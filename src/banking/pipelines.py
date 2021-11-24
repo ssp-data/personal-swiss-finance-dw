@@ -11,8 +11,8 @@ from dagster import (
     file_relative_path,
     ConfigMapping,
 )
+from banking.ops.fetching import download_transactions, load_csv_swiss
 
-from banking.ops.fetching import download_transactions
 from banking.resources.resource_bekb import bekb_resource
 
 
@@ -31,6 +31,8 @@ PRESET_LOCAL = PresetDefinition(
 @graph()
 def download_pipeline():
     json = download_transactions()
+
+    load_csv_swiss()
 
 
 resource_def = {
