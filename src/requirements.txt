@@ -1,8 +1,9 @@
-dagster==0.13.8
-dagit==0.13.8
-dagster_pandas==0.13.8
+dagster
+dagit
+dagster_pandas
 pandas
 xlrd
 black
 requests
 datetime
+duckdb

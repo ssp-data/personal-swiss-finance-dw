@@ -1,25 +1,54 @@
-from dagster import solid, op, String, OutputDefinition, LocalFileHandle
-from banking.types.pandas import BekbTransactionDataFrame
-from pandas import DataFrame, read_csv
-from dagster.utils import script_relative_path
+import os
 
 import pandas as pd
+from dagster import LocalFileHandle, OutputDefinition, String, op, solid
+from dagster.utils import script_relative_path
+from pandas import DataFrame, read_csv
+
+from banking.types.pandas import BekbTransactionDataFrame, TransactionDataFrame
 
 
 @op(
     output_defs=[
-        OutputDefinition(name="bekb_transaction_dataframe", dagster_type=BekbTransactionDataFrame)
-    ]
+        OutputDefinition(
+            name="bekb_transaction_dataframe", dagster_type=TransactionDataFrame
+        )
+    ],
+    description="Reads BEKB Excel files and returns pandas dataframe",
 )
-def excel_reader(context, file_path: String) -> DataFrame:
-    xls = pd.ExcelFile(file_path).parse(0)
-    sheet = xls.parse(0)
+def excel_reader(context, path: str, file_name: str) -> DataFrame:
 
-    df_sheet = pd.ExcelFile(script_relative_path(file_path)).parse(0)
-    context.log.info("Info about read excel file: {}".format(df_sheet.info()))
+    df = pd.ExcelFile(script_relative_path(os.path.join(path, file_name))).parse(0)
 
-    return (
-        sheet,
-        # parse_dates=["datum", "valuta"],
-        # date_parser=lambda x: datetime.strptime(x, "%Y-%m-%d %H:%M:%S.%f"),
+    rename_dict = {
+        "Gutschrift / Belastung": "not needed",
+        "Datum": "transaction_date",
+        "Valuta": "posting_date",
+        "Buchungstext": "description",
+        "Zusatzinfos Buchung": "additional_info",
+        "Name Auftraggeber / Begünstigter": "merchant_name",
+        "Adresse Auftraggeber / Begünstigter": "merchant_address",
+        "Konto / Bank": "merchant_bank",
+        "Mitteilung / Referenz": "reference_number",
+        "Zusatzinfos Transaktion": "additional_info_transaction",
+        "Betrag": "billing_amount_chf",
+        "Saldo": "saldo_chf",
+    }
+
+    df = df.rename(columns=rename_dict)
+    # column conversion
+    df.transaction_date = pd.to_datetime(df.transaction_date)
+    df.posting_date = pd.to_datetime(df.posting_date)
+    # remove none intersting columns
+    df = df.drop(
+        columns=[
+            "not needed",
+            "additional_info",
+            "additional_info_transaction",
+            "saldo_chf",
+        ]
     )
+    context.log.info(f"{df.shape[0]} transactions loaded")
+    context.log.info(f"dataframe columns: {df.columns}")
+
+    return df

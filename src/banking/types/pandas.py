@@ -23,6 +23,8 @@ BekbTransactionDataFrame = create_dagster_pandas_dataframe_type(
         PandasColumn.string_column("zusatzinfos_transaktion"),
         PandasColumn.float_column("Betrag"),
         PandasColumn.float_column("Saldo"),
+        PandasColumn.string_column("merchant_address"),
+        PandasColumn.string_column("description"),
     ],
 )
 

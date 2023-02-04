@@ -1,20 +1,18 @@
-import os
-
 from dagster import (
+    ConfigMapping,
     ModeDefinition,
     PresetDefinition,
     ResourceDefinition,
-    fs_io_manager,
-    mem_io_manager,
-    graph,
-    repository,
     file_relative_path,
-    ConfigMapping,
+    fs_io_manager,
+    graph,
+    mem_io_manager,
+    repository,
 )
+
+from banking.ops.excel_reader import excel_reader
 from banking.ops.fetching import download_transactions, load_csv_swiss
-
 from banking.resources.resource_bekb import bekb_resource
-
 
 PRESET_LOCAL = PresetDefinition(
     name="test_local_disk",
@@ -30,9 +28,10 @@ PRESET_LOCAL = PresetDefinition(
 
 @graph()
 def download_pipeline():
-    json = download_transactions()
+    #     json = download_transactions()
 
     load_csv_swiss()
+    excel_reader()
 
 
 resource_def = {
