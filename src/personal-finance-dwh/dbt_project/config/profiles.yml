@@ -3,5 +3,5 @@ dbt_project:
   outputs:
     local:
       type: duckdb
-      path: example.duckdb
+      path: "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_export/_Transaktionen_Export/Test-2024/example.duckdb"
       schema: dbt_schema

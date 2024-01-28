@@ -20,7 +20,10 @@ def order_forecast_model(daily_order_summary: pd.DataFrame) -> Any:
     df = daily_order_summary
     return tuple(
         optimize.curve_fit(
-            f=model_func, xdata=df.order_date.astype(np.int64), ydata=df.num_orders, p0=[10, 100]
+            f=model_func,
+            xdata=df.order_date.astype(np.int64),
+            ydata=df.num_orders,
+            p0=[10, 100],
         )[0]
     )
 
