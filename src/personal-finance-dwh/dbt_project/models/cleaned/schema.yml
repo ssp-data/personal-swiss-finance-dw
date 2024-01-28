@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: categories_cleaned
+    description: "Processed transaction data from BEKB bank statements."
+    columns:
+      - name: cat
+        description: "main category"
+        data_type: "str"
+      - name: sub_cat
+        description: "sub category"
+        data_type: "str"
+      - name: BookingText
+        description: "Text description of the booking."
+        data_type: "str"
+      - name: NameOriginatorBeneficiary
+        description: "Name of the originator or beneficiary involved in the transaction."
+        data_type: "str"
+  - name: transactions_cleaned
+    description: "Processed transaction data from BEKB bank statements."
+    columns:
+      - name: CreditDebit
+        description: "Indicates whether the transaction is a credit or debit."
+        data_type: "str"
+      - name: Date
+        description: "The date when the transaction was booked."
+        data_type: "timestamp"
+      - name: ValueDate
+        description: "The value date of the transaction."
+        data_type: "timestamp"
+      - name: BookingText
+        description: "Text description of the booking."
+        data_type: "str"
+      - name: AdditionalInfoBooking
+        description: "Additional information related to the booking."
+        data_type: "str"
+      - name: NameOriginatorBeneficiary
+        description: "Name of the originator or beneficiary involved in the transaction."
+        data_type: "str"
+      - name: AddressOriginatorBeneficiary
+        description: "Address of the originator or beneficiary."
+        data_type: "str"
+      - name: AccountBank
+        description: "Account or bank details involved in the transaction."
+        data_type: "str"
+      - name: MessageReference
+        description: "Message reference for the transaction."
+        data_type: "str"
+      - name: AdditionalInfoTransaction
+        description: "Additional information about the transaction."
+        data_type: "str"
+      - name: Amount
+        description: "The monetary amount of the transaction."
+        data_type: "float"
+      - name: Balance
+        description: "Balance of the account after the transaction."
+        data_type: "float"

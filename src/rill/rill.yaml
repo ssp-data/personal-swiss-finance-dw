@@ -1,0 +1,9 @@
+compiler: rillv1
+
+title: "Personal Finance DWH"
+
+# These are example mock users to test your security policies.
+# For more information, see the documentation: https://docs.rilldata.com/develop/security
+
+mock_users:
+- email: simon@ssp.sh

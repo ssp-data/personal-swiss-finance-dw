@@ -1,0 +1,7 @@
+dbt_project:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_analytics/personal-finance.duckdb"
+      schema: dbt_schema
