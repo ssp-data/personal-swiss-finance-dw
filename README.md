@@ -1,14 +1,14 @@
-
-
 # Personal Finance Data Warehouse
 
-This project startet long ago with forking the [etl-with-airflow](https://gtoonstra.github.io/etl-with-airflow/) repo to learn Apache Airlow.
+This project is used to categorize my finances.
 
-I added some features to automate my personal fincances to improve the bad state back then in swiss banking with these featues:
+I exported my statements in CSVs and reading them in with dagster and model the data with dbt.
+Rill data is used for dasboards.
+
+
+--- 
+
+There are some older code for downloading and exporing BEKB format t940 directly via web. But I moved them to `_archive` now. Might add it later again to the main project. The features it had was:
 * to extract transaction information from an t940-export (old swiss format) export to a JSON
-* startet to scrape viseca credit card information
-* but ended up downloading de transaction from the Web UI with mark all and save it to a text file and automatically write that to a transactions file as well
 
-Today (August 2021) I found that project and was motivated to migrate it to Dagster and maybe add some featues. Let's see how that goes 😉.
 
-The hard part is, that swiss banks living in the stoneage and won't provide any API or standard interfaces, theresore I had to find other ways. Luckily Revolut and other Internet banks make it possible nowdays.
