@@ -21,8 +21,9 @@ with categorized_transactions as (
 )
 
 select
+    ValueDate,
     cat,
     sub_cat,
     sum(Amount) as total_amount
 from categorized_transactions
-group by 1, 2 --,date
+group by 1, 2, 3

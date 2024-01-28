@@ -16,8 +16,8 @@ with categorized_transactions as (
         coalesce(tc.cat, coalesce(ts.cat, 'Uncategorized')) as cat,
         coalesce(tc.sub_cat, coalesce(ts.sub_cat, 'Uncategorized')) as sub_cat,
     from {{ ref("transactions_cleaned") }} bt
-    left join {{ ref("categories_cleaned") }} tc on bt.BookingText = tc.BookingText 
-    left join {{ ref("categories_cleaned") }} ts on bt.NameOriginatorBeneficiary = ts.NameOriginatorBeneficiary
+    left join {{ ref("categories_cleaned") }} tc on lower(bt.BookingText) like lower(tc.BookingText)
+    left join {{ ref("categories_cleaned") }} ts on lower(bt.NameOriginatorBeneficiary) like lower(ts.NameOriginatorBeneficiary)
 )
 
 select

@@ -1,5 +1,5 @@
 # Visit https://docs.rilldata.com/reference/project-files/sources to learn more about Rill source files.
 
 type: "duckdb"
-db: "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_export/_Transaktionen_Export/Test-2024/example.duckdb"
+db: "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_analytics/personal-finance.duckdb"
 sql: "select * from dbt_schema.spend_categorise"
