@@ -1,0 +1,5 @@
+# Visit https://docs.rilldata.com/reference/project-files/sources to learn more about Rill source files.
+
+type: "duckdb"
+db: "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_export/_Transaktionen_Export/Test-2024/example.duckdb"
+sql: "select * from raw_data.categories"
