@@ -65,7 +65,6 @@ def decompress_and_uncompress(request_string: String, filename: String) -> XmlTy
     description="import csv exportet transaction from Swiss credit card",
 )
 def load_csv_swiss(context, path: str, file_name: str) -> DataFrame:
-
     df = pd.read_csv(os.path.join(path, file_name), sep=",", decimal=".")
     rename_dict = {
         "Transaction Date": "transaction_date",
@@ -94,4 +93,41 @@ def load_csv_swiss(context, path: str, file_name: str) -> DataFrame:
     context.log.info(f"{df.shape[0]} transactions loaded")
     context.log.info(f"dataframe columns: {df.columns}")
 
+    return df
+
+
+@op(
+    # out=Out(TransactionDataFrame),
+    description="import csv exportet transaction from Swiss credit card",
+)
+def load_csv_bekb(context, path: str, file_name: str) -> DataFrame:
+    file_name = os.path.join(path, file_name)
+
+    # Reading the CSV file
+    df = pd.read_csv(file_name, sep=",", engine="python")
+
+    # Renaming columns
+    df.columns = [
+        "CreditDebit",
+        "Date",
+        "ValueDate",
+        "BookingText",
+        "AdditionalInfoBooking",
+        "NameOriginatorBeneficiary",
+        "AddressOriginatorBeneficiary",
+        "AccountBank",
+        "MessageReference",
+        "AdditionalInfoTransaction",
+        "Amount",
+        "Balance",
+    ]
+
+    # Converting 'Date' and 'ValueDate' to datetime
+    df["Date"] = pd.to_datetime(df["Date"], format="%d.%m.%Y")
+    df["ValueDate"] = pd.to_datetime(df["ValueDate"], format="%d.%m.%Y")
+
+    # Converting 'Amount' to a numeric type
+    df["Amount"] = pd.to_numeric(df["Amount"], errors="coerce")
+
+    df.head()  # Displaying the first few rows of the transformed dataframe
     return df
