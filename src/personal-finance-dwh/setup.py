@@ -7,7 +7,9 @@ setup(
     packages=find_packages(exclude=["assets_dbt_python_tests"]),
     # package data paths are relative to the package key
     package_data={
-        "assets_dbt_python": ["../" + path for path in glob.glob("dbt_project/**", recursive=True)]
+        "assets_dbt_python": [
+            "../" + path for path in glob.glob("dbt_project/**", recursive=True)
+        ]
     },
     install_requires=[
         "dagster",
@@ -23,6 +25,7 @@ setup(
         "dagster-duckdb-pandas",
         # packaging v22 has build compatibility issues with dbt as of 2022-12-07
         "packaging<22.0",
+        "dagster_pandas",
     ],
     extras_require={"dev": ["dagster-webserver", "pytest"]},
 )
