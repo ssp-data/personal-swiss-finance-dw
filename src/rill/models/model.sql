@@ -23,11 +23,11 @@ with categorized_transactions as (
 
 select
   --extract('year' FROM date) as year,
-date,
+    date,
     cat,
     sub_cat,
-    sum(Amount) as total_amount
+    Amount as total_amount --sum(Amount) as total_amount,
 from categorized_transactions
-group by 
-1, --extract('year' FROM date) , 
- 2,3
+--group by 
+--1, --extract('year' FROM date) , 
+ --2,3
