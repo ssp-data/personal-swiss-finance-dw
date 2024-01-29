@@ -1,7 +1,7 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
 model: model
-timeseries: ""
+timeseries: Date
 measures:
   - label: Total records
     expression: count(*)
