@@ -1,0 +1,19 @@
+# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+
+title: "dashboard"
+model: ""
+default_time_range: ""
+smallest_time_grain: ""
+timeseries: ""
+measures:
+  - label: "Total Records"
+    expression: "count(*)"
+dimensions:
+  - name: dimension1
+    label: First dimension
+    column: dimension1
+    description: ""
+available_time_zones:
+  - "Etc/UTC"
+  - "America/Los_Angeles"
+  - "America/New_York"

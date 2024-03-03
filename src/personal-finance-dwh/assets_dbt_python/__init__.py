@@ -44,9 +44,7 @@ resources = {
     "io_manager": DuckDBPandasIOManager(
         database=os.path.join(
             DBT_PROJECT_DIR,
-            "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_analytics/personal-finance.duckdb",
-        )
-    ),
+            "/Users/sspaeti/Simon/Sync/1 Areas/Finance/Bank/Kontoauszüge/_analytics/personal-finance.duckdb",)),
     # this io_manager is responsible for storing/loading our pickled machine learning model
     "model_io_manager": FilesystemIOManager(),
     # this resource is used to execute dbt cli commands
