@@ -125,6 +125,9 @@ python_modules/libraries/dagster-aws/dagster_aws/ecs/config.yaml
 python_modules/dagit/node_modules/
 python_modules/dagit/yarn.lock
 
+
+**/node_modules/
+
 # Gatsby stuff
 docs/gatsby/**/node_modules/
 docs/gatsby/**/_build

@@ -1,6 +1,6 @@
 select
  cat,
  sub_cat,
- BookingText,
- NameOriginatorBeneficiary
+ CAST(BookingText AS VARCHAR) as BookingText,
+ CAST(NameOriginatorBeneficiary AS VARCHAR) as NameOriginatorBeneficiary
 from {{ source("raw_data", "categories") }}
