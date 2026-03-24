@@ -1,0 +1,65 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: 2024 Invoices SSP Data Metrics
+model: _2024_invoices_ssp_data
+timeseries: "2025-01-01"
+
+dimensions:
+  - label: Civica
+    column: CIVICA
+  - label: Invoice 1/2
+    column: Invoice 1/2
+  - label: Book Sponsoring
+    column: Book Sponsoring
+
+measures:
+  - name: count_invoices_measure
+    label: Count of Invoices
+    expression: COUNT(*)
+    description: Total number of invoice records in the dataset.
+    format_preset: humanize
+  - name: unique_invoice_dates_measure
+    label: Unique Invoice Dates
+    expression: COUNT(DISTINCT "2025-01-01")
+    description: Number of unique dates on which invoices were issued.
+    format_preset: humanize
+  - name: total_code_2000_measure
+    label: Total of Code 2000
+    expression: SUM("2000")
+    description: Sum of all values in the '2000' column, representing a specific code.
+    format_preset: humanize
+  - name: average_code_2000_measure
+    label: Average of Code 2000
+    expression: AVG("2000")
+    description: Average value of the '2000' column, representing a specific code.
+    format_preset: humanize
+  - name: max_code_0_measure
+    label: Maximum of Code 0
+    expression: MAX("0")
+    description: Maximum value found in the '0' column, representing a specific code.
+    format_preset: humanize
+  - name: min_code_0_measure
+    label: Minimum of Code 0
+    expression: MIN("0")
+    description: Minimum value found in the '0' column, representing a specific code.
+    format_preset: humanize
+  - name: count_civica_entries_measure
+    label: Count of CIVICA Entries
+    expression: COUNT(DISTINCT CIVICA)
+    description: Number of distinct entries in the 'CIVICA' column.
+    format_preset: humanize
+  - name: count_invoice_types_measure
+    label: Count of Invoice Types
+    expression: COUNT(DISTINCT "Invoice 1/2")
+    description: Number of distinct types of invoices recorded in the 'Invoice 1/2' column.
+    format_preset: humanize
+  - name: count_book_sponsoring_types_measure
+    label: Count of Book Sponsoring Types
+    expression: COUNT(DISTINCT "Book Sponsoring")
+    description: Number of distinct book sponsoring types recorded in the 'Book Sponsoring' column.
+    format_preset: humanize

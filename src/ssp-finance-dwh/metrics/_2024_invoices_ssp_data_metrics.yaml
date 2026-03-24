@@ -1,0 +1,70 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: 2024 Invoices SSP Data Metrics
+model: _2024_invoices_ssp_data
+timeseries: "2025-01-01"
+
+dimensions:
+  - label: Civica
+    column: CIVICA
+  - label: Invoice 1/2
+    column: Invoice 1/2
+  - label: Book Sponsoring
+    column: Book Sponsoring
+
+measures:
+  - name: count_invoices_measure
+    label: Count of Invoices
+    expression: COUNT(*)
+    description: Total number of invoice records in the dataset.
+    format_preset: humanize
+  - name: max_invoice_code_measure
+    label: Maximum Invoice Code
+    expression: MAX("2000")
+    description: The highest value in the invoice code column.
+    format_preset: humanize
+  - name: min_invoice_code_measure
+    label: Minimum Invoice Code
+    expression: MIN("2000")
+    description: The lowest value in the invoice code column.
+    format_preset: humanize
+  - name: average_invoice_code_measure
+    label: Average Invoice Code
+    expression: AVG("2000")
+    description: The average value of the invoice code column.
+    format_preset: humanize
+  - name: sum_invoice_code_measure
+    label: Sum of Invoice Codes
+    expression: SUM("2000")
+    description: The total sum of all values in the invoice code column.
+    format_preset: humanize
+  - name: max_code_zero_measure
+    label: Maximum Code Zero
+    expression: MAX("0")
+    description: The highest value in the code zero column.
+    format_preset: humanize
+  - name: min_code_zero_measure
+    label: Minimum Code Zero
+    expression: MIN("0")
+    description: The lowest value in the code zero column.
+    format_preset: humanize
+  - name: average_code_zero_measure
+    label: Average Code Zero
+    expression: AVG("0")
+    description: The average value of the code zero column.
+    format_preset: humanize
+  - name: sum_code_zero_measure
+    label: Sum of Code Zero
+    expression: SUM("0")
+    description: The total sum of all values in the code zero column.
+    format_preset: humanize
+  - name: count_unique_civica_measure
+    label: Count of Unique Civica
+    expression: COUNT(DISTINCT CIVICA)
+    description: The number of unique values in the Civica column.
+    format_preset: humanize
