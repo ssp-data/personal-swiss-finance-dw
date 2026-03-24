@@ -1,16 +1,10 @@
 .DEFAULT_GOAL := dagster
 
 dagster:
-	( \
-       source ~/.venvs/banking-bekb//bin/activate; \
-       dagster dev; \
-    )
+	uv run dagster dev
 
 install:
-	( \
-       source ~/.venvs/banking-bekb//bin/activate; \
-       pip install -e ".[dev]"; \
-    )
+	uv sync --extra dev
 
 rill:
 	( \
@@ -19,5 +13,5 @@ rill:
 		)
 
 run-job:
-	dagster job execute -j everything_everywhere_job -m assets_dbt_python
+	uv run dagster job execute -j everything_everywhere_job -m assets_dbt_python
 

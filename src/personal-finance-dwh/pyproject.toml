@@ -1,6 +1,36 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "assets_dbt_python"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "dagster",
+    "dagster-cloud",
+    "boto3",
+    "dagster-dbt",
+    "pandas",
+    "numpy",
+    "scipy",
+    "dbt-core",
+    "dbt-duckdb",
+    "dagster-duckdb",
+    "dagster-duckdb-pandas",
+    "packaging<22.0",
+    "dagster-pandas",
+]
+
+[project.optional-dependencies]
+dev = ["dagster-webserver", "pytest"]
+
+[tool.setuptools.packages.find]
+exclude = ["assets_dbt_python_tests"]
+namespaces = false
+
+[tool.setuptools.package-data]
+assets_dbt_python = ["../dbt_project/**"]
 
 [tool.dagster]
 module_name = "assets_dbt_python"
